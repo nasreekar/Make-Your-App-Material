@@ -18,9 +18,10 @@
 <resources>
     <color name="photo_placeholder">#ccc</color>
 
-    <color name="theme_primary">#B9561A</color>
-    <color name="theme_primary_dark">#C73F12</color>
-    <color name="theme_primary_light">#C76F12</color>
-    <color name="theme_accent">#1AB6BA</color>
+    // refer color.adobe.com/create
+    <color name="theme_primary">#FF873D</color>
+    <color name="theme_primary_dark">#B35419</color>
+    <color name="theme_primary_light">#FF9757</color>
+    <color name="theme_accent">#3DFAFF</color>
     <color name="ltgray">#ffe0e0e0</color>
 </resources>
