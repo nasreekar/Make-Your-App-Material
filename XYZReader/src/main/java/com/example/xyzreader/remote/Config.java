@@ -12,7 +12,12 @@ public class Config {
     static {
         URL url = null;
         try {
-            url = new URL("https://nspf.github.io/XYZReader/data.json" );
+
+            // url = new URL("https://go.udacity.com/xyz-reader-json" );
+
+            // use this if its taking a long time to retrieve the contents
+             url = new URL("https://nspf.github.io/XYZReader/data.json" );
+
         } catch (MalformedURLException ignored) {
             // TODO: throw a real error
             Log.e(TAG, "Please check your internet connection.");

@@ -18,10 +18,11 @@
 <resources>
     <color name="photo_placeholder">#ccc</color>
 
-    // refer color.adobe.com/create
-    <color name="theme_primary">#FF873D</color>
-    <color name="theme_primary_dark">#B35419</color>
-    <color name="theme_primary_light">#FF9757</color>
-    <color name="theme_accent">#3DFAFF</color>
-    <color name="ltgray">#ffe0e0e0</color>
+    <!--using the color of logo as the reference-->
+    <!--refer color.adobe.com/create-->
+    <color name="theme_primary">#F1531F</color>
+    <color name="theme_primary_dark">#A6320B</color>
+    <color name="theme_primary_light">#FF6C3B</color>
+    <color name="theme_accent">#00A67F</color>
+
 </resources>
