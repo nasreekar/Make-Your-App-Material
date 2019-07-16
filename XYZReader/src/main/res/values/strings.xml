@@ -8,5 +8,7 @@
     <string name="action_share">Share</string>
 
     <string name="up">Up</string>
+    <string name="transition_photo">transition_photo</string>
+    <string name="error_loading_items">Error Loading Items. Please check the Internet Connection or Try after some time.</string>
 
 </resources>
