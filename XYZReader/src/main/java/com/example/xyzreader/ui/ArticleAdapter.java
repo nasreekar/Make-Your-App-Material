@@ -1,12 +1,9 @@
 package com.example.xyzreader.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -63,17 +60,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
             public void onClick(View view) {
                 mArticlePosition = vh.getAdapterPosition();
 
-                ActivityOptionsCompat bundle = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            (Activity) mContext,
-                            vh.thumbnailView,
-                            vh.thumbnailView.getTransitionName()
-                    );
-                }
                 Intent intent = new Intent(Intent.ACTION_VIEW,
                         ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
-                mContext.startActivity(intent, bundle.toBundle());
+                mContext.startActivity(intent);
             }
         });
         return vh;
@@ -85,30 +74,24 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         mCursor.moveToPosition(position);
         mArticlePosition = position;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.thumbnailView.setTransitionName(mContext.getString(R.string.transition_photo) + position);
-        }
-        holder.thumbnailView.setTag(mContext.getString(R.string.transition_photo) + position);
-
-        String title = mCursor.getString(ArticleLoader.Query.TITLE);
+        holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
         String subtitle = DateUtils.getRelativeTimeSpanString(
                 mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
                 System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
                 DateUtils.FORMAT_ABBREV_ALL).toString() + " by "
                 + mCursor.getString(ArticleLoader.Query.AUTHOR);
-        String image = mCursor.getString(ArticleLoader.Query.THUMB_URL);
-        holder.titleView.setText(title);
         holder.subtitleView.setText(subtitle);
-        holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
+
+        String imageUrl = mCursor.getString(ArticleLoader.Query.THUMB_URL);
         ImageLoader loader = ImageLoaderHelper.getInstance(mContext).getImageLoader();
-        holder.thumbnailView.setImageUrl(image, loader);
-        loader.get(image, new ImageLoader.ImageListener() {
+        holder.thumbnailView.setImageUrl(imageUrl, loader);
+        loader.get(imageUrl, new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
                 Bitmap bitmap = imageContainer.getBitmap();
                 if (bitmap != null) {
                     Palette p = Palette.from(bitmap).generate();
-                    int mMutedColor = p.getDarkMutedColor(0xFF424242);
+                    int mMutedColor = p.getDarkMutedColor(0xFF333333);
                     holder.itemView.setBackgroundColor(mMutedColor);
                 }
             }
@@ -118,6 +101,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
             }
         });
+
+        holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
     }
 
     @Override

@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -43,16 +41,11 @@ import butterknife.ButterKnife;
  */
 public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = "ArticleDetailFragment";
 
     public static final String ARG_ITEM_ID = "item_id";
-    private Cursor mCursor;
     private long mItemId;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
-    private int mTopInset;
-    private long mBackgroundImageFadeMillis;
-
 
     @BindView(R.id.scrollView)
     NestedScrollView mScrollView;
@@ -101,6 +94,7 @@ public class ArticleDetailFragment extends Fragment implements
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
+
         setHasOptionsMenu(true);
     }
 
@@ -123,69 +117,6 @@ public class ArticleDetailFragment extends Fragment implements
 
         return mRootView;
     }
-
-   /* private void bindViews() {
-        if (mRootView == null) {
-            return;
-        }
-
-        if (mCursor != null) {
-            mRootView.setAlpha(0);
-            mRootView.setVisibility(View.VISIBLE);
-            mRootView.animate().alpha(1);
-
-
-            String photo = mCursor.getString(ArticleLoader.Query.PHOTO_URL);
-            final String title = mCursor.getString(ArticleLoader.Query.TITLE);
-            final String time = Html.fromHtml(
-                    DateUtils.getRelativeTimeSpanString(
-                            mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
-                            System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                            DateUtils.FORMAT_ABBREV_ALL).toString()
-                            + " by "
-                            + mCursor.getString(ArticleLoader.Query.AUTHOR)).toString();
-            final String body = Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)).toString();
-            titleView.setText(title);
-            bylineView.setText(time);
-            mPhotoView.setContentDescription(title + time);
-            bodyView.setText(body);
-
-            mShareFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                            .setType("text/plain")
-                            .setText(title + "/n" + time + "/n" + body)
-                            .getIntent(), getString(R.string.action_share)));
-                }
-            });
-
-            ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
-                    .get(photo, new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-
-                            Bitmap bitmap = imageContainer.getBitmap();
-                            if (bitmap != null) {
-                                Palette p = Palette.from(bitmap).generate();
-                                mMutedColor = p.getDarkMutedColor(0xFF424242);
-                                mPhotoView.setImageBitmap(imageContainer.getBitmap());
-                            }
-                        }
-
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    });
-
-        } else {
-            mRootView.setVisibility(View.GONE);
-            titleView.setText("N/A");
-            bylineView.setText("N/A");
-            bodyView.setText("N/A");
-        }
-    }*/
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -239,6 +170,8 @@ public class ArticleDetailFragment extends Fragment implements
                             Palette p = Palette.from(bitmap).generate();
                             mMutedColor = p.getDarkMutedColor(0xFF424242);
                             mPhotoView.setImageBitmap(imageContainer.getBitmap());
+                            mRootView.findViewById(R.id.meta_bar)
+                                    .setBackgroundColor(mMutedColor);
                         }
                     }
 

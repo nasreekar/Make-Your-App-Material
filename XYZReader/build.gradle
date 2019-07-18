@@ -21,6 +21,10 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
     }
+
+    lintOptions {
+        disable 'ContentDescription'
+    }
 }
 
 dependencies {
@@ -35,7 +39,6 @@ dependencies {
 
     implementation 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
 
     implementation files('libs/volley.jar')
 }
