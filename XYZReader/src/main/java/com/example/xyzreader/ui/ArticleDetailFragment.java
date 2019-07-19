@@ -43,10 +43,6 @@ public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String ARG_ITEM_ID = "item_id";
-    private long mItemId;
-    private View mRootView;
-    private int mMutedColor = 0xFF333333;
-
     @BindView(R.id.scrollView)
     NestedScrollView mScrollView;
     @BindView(R.id.thumbnail)
@@ -70,6 +66,9 @@ public class ArticleDetailFragment extends Fragment implements
     @Nullable
     @BindView(R.id.card)
     CardView mCard;
+    private long mItemId;
+    private View mRootView;
+    private int mMutedColor = 0xFF333333;
 
 
     /**

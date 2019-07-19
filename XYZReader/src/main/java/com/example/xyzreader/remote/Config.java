@@ -16,7 +16,7 @@ public class Config {
             // url = new URL("https://go.udacity.com/xyz-reader-json" );
 
             // use this if its taking a long time to retrieve the contents
-             url = new URL("https://nspf.github.io/XYZReader/data.json" );
+            url = new URL("https://nspf.github.io/XYZReader/data.json");
 
         } catch (MalformedURLException ignored) {
             // TODO: throw a real error

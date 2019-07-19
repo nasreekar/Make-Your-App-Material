@@ -26,20 +26,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     private Context mContext;
     private int mArticlePosition;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.thumbnail)
-        DynamicHeightNetworkImageView thumbnailView;
-        @BindView(R.id.article_title)
-        TextView titleView;
-        @BindView(R.id.article_subtitle)
-        TextView subtitleView;
-
-        public ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
-
     public ArticleAdapter(Context context, Cursor cursor) {
         mContext = context;
         mCursor = cursor;
@@ -67,7 +53,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         });
         return vh;
     }
-
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
@@ -108,5 +93,19 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     @Override
     public int getItemCount() {
         return mCursor.getCount();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.thumbnail)
+        DynamicHeightNetworkImageView thumbnailView;
+        @BindView(R.id.article_title)
+        TextView titleView;
+        @BindView(R.id.article_subtitle)
+        TextView subtitleView;
+
+        public ViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
     }
 }

@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop" />
 
                 <View
                     android:layout_width="match_parent"
@@ -39,8 +39,8 @@
                     android:id="@+id/meta_bar"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:elevation="@dimen/cardview_default_elevation"
                     android:layout_gravity="bottom"
+                    android:elevation="@dimen/cardview_default_elevation"
                     android:orientation="vertical"
                     android:padding="@dimen/start_end_padding">
 
@@ -58,8 +58,8 @@
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
 
             </FrameLayout>
@@ -68,8 +68,8 @@
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 app:contentInsetStart="@dimen/top_bottom_padding"
+                app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 

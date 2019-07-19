@@ -24,12 +24,10 @@ public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public final static String EXTRAS_CURRENT_ID = "EXTRAS_CURRENT_ID";
-
-    private Cursor mCursor;
-    private long mCurrentId;
-
     @BindView(R.id.pager)
     ViewPager mPager;
+    private Cursor mCursor;
+    private long mCurrentId;
     private MyPagerAdapter mPagerAdapter;
 
     @Override
