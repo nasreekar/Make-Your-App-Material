@@ -16,6 +16,7 @@
     <dimen name="expanded_toolbar_title_margin_bottom">40dp</dimen>
     <dimen name="app_bar_elevation">4dp</dimen>
     <dimen name="fab_elevation">4dp</dimen>
+    <dimen name="padding_24dp">24dp</dimen>
 
     <bool name="detail_is_card">false</bool>
     <integer name="background_image_fade_millis">1000</integer>
