@@ -26,3 +26,8 @@ Through this project, you will:
 
 == Starter Code:
 XYZ Reader: A mock RSS feed reader featuring banner photos and headlines. Link for starter [code](https://github.com/udacity/xyz-reader-starter-code)
+
+# Screenshots
+
+| ![ScreenShot1]() | ![ScreenShot2]()| ![ScreenShot3]()|
+|:---:|:---:|:---:|
