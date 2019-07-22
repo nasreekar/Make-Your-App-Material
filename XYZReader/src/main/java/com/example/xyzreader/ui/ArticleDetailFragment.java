@@ -34,6 +34,8 @@ import com.example.xyzreader.data.ArticleLoader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.xyzreader.ui.ArticleListActivity.STARTING_ARTICLE_POSITION;
+
 /**
  * A fragment representing a single Article detail screen. This fragment is
  * either contained in a {@link ArticleListActivity} in two-pane mode (on
@@ -43,6 +45,7 @@ public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String ARG_ITEM_ID = "item_id";
+
     @BindView(R.id.scrollView)
     NestedScrollView mScrollView;
     @BindView(R.id.thumbnail)
@@ -66,10 +69,11 @@ public class ArticleDetailFragment extends Fragment implements
     @Nullable
     @BindView(R.id.card)
     CardView mCard;
+
     private long mItemId;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
-
+    private int mCurrentPosition;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -93,6 +97,7 @@ public class ArticleDetailFragment extends Fragment implements
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
+        mCurrentPosition = getArguments().getInt(STARTING_ARTICLE_POSITION);
 
         setHasOptionsMenu(true);
     }
@@ -158,6 +163,10 @@ public class ArticleDetailFragment extends Fragment implements
         titleView.setText(title);
         bylineView.setText(author);
         bodyView.setText(body);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mPhotoView.setTransitionName(getString(R.string.transition_photo) + mCurrentPosition);
+        }
 
         ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                 .get(photo, new ImageLoader.ImageListener() {

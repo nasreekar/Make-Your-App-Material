@@ -1,9 +1,12 @@
 package com.example.xyzreader.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -20,6 +23,8 @@ import com.example.xyzreader.data.ItemsContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.xyzreader.ui.ArticleListActivity.STARTING_ARTICLE_POSITION;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHolder> {
     private Cursor mCursor;
@@ -46,9 +51,19 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
             public void onClick(View view) {
                 mArticlePosition = vh.getAdapterPosition();
 
+                ActivityOptionsCompat bundle = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            (Activity) mContext,
+                            vh.thumbnailView,
+                            vh.thumbnailView.getTransitionName()
+                    );
+                }
+
                 Intent intent = new Intent(Intent.ACTION_VIEW,
                         ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
-                mContext.startActivity(intent);
+                intent.putExtra(STARTING_ARTICLE_POSITION, mArticlePosition);
+                mContext.startActivity(intent, bundle.toBundle());
             }
         });
         return vh;
@@ -58,6 +73,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         mArticlePosition = position;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.thumbnailView.setTransitionName(mContext.getString(R.string.transition_photo) + position);
+        }
+        holder.thumbnailView.setTag(mContext.getString(R.string.transition_photo) + position);
 
         holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
         String subtitle = DateUtils.getRelativeTimeSpanString(

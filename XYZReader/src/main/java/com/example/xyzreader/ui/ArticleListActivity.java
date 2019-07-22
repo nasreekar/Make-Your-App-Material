@@ -40,6 +40,9 @@ public class ArticleListActivity extends AppCompatActivity implements
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    static final String STARTING_ARTICLE_POSITION = "starting_article_position";
+
     private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
