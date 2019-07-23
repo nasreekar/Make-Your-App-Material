@@ -5,7 +5,7 @@
     <item name="detail_body_line_spacing_multiplier" format="float" type="fraction">1.25</item>
 
 
-    <dimen name="fab_press_translation_z">6dp</dimen>
+    <dimen name="fab_press_translation_z">8dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="card_margin">4dp</dimen>
     <dimen name="start_end_padding">16dp</dimen>
@@ -15,7 +15,7 @@
     <dimen name="expanded_toolbar_height">80dp</dimen>
     <dimen name="expanded_toolbar_title_margin_bottom">40dp</dimen>
     <dimen name="app_bar_elevation">4dp</dimen>
-    <dimen name="fab_elevation">4dp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
     <dimen name="padding_24dp">24dp</dimen>
 
     <bool name="detail_is_card">false</bool>
