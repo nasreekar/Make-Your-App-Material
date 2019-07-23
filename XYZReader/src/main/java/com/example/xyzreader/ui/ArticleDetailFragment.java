@@ -15,7 +15,6 @@ import android.support.v4.app.ShareCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -71,8 +70,7 @@ public class ArticleDetailFragment extends Fragment implements
     @BindView(R.id.article_body)
     TextView bodyView;
     @Nullable
-    @BindView(R.id.card)
-    CardView mCard;
+
 
     private long mItemId;
     private View mRootView;
@@ -159,9 +157,6 @@ public class ArticleDetailFragment extends Fragment implements
 
 
             if (detailToolbar != null) {
-                if (mCard == null) {
-                    detailToolbar.setTitle(title);
-                }
                 detailToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
                 detailToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override

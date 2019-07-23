@@ -38,49 +38,16 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/photo_background_protection" />
 
-            </FrameLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/detail_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            </android.support.v7.widget.Toolbar>
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-180dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/card"
-            android:layout_width="450dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            app:cardElevation="@dimen/cardview_default_elevation">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
                 <LinearLayout
                     android:id="@+id/meta_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="@dimen/top_bottom_padding"
                     android:orientation="vertical"
-                    android:padding="@dimen/top_bottom_padding">
+                    android:paddingStart="@dimen/start_end_padding"
+                    android:paddingTop="@dimen/padding_24dp"
+                    android:paddingEnd="@dimen/start_end_padding"
+                    android:paddingBottom="@dimen/padding_24dp">
 
                     <TextView
                         android:id="@+id/article_title"
@@ -100,20 +67,48 @@
                         android:textColor="@android:color/white" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/article_body"
-                    style="?android:attr/textAppearanceMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/top_bottom_padding"
-                    android:autoLink="web"
-                    android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
-                    android:linksClickable="true"
-                    android:paddingTop="@dimen/top_bottom_padding"
-                    android:textColor="@android:color/black"
-                    android:textColorLink="@color/theme_accent" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            </FrameLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/detail_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/details_text_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:transitionGroup="true">
+
+            <TextView
+                android:id="@+id/article_body"
+                style="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/top_bottom_padding"
+                android:autoLink="web"
+                android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
+                android:linksClickable="true"
+                android:paddingTop="@dimen/top_bottom_padding"
+                android:textColor="@android:color/black"
+                android:textColorLink="@color/theme_accent" />
+
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
