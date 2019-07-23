@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -100,11 +101,11 @@
                 android:layout_marginEnd="@dimen/start_end_padding"
                 android:layout_marginBottom="@dimen/padding_24dp"
                 android:autoLink="web"
+                android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
                 android:linksClickable="true"
                 android:paddingTop="@dimen/padding_24dp"
                 android:textColor="@android:color/black"
-                android:textColorLink="@color/theme_accent"
-                android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier" />
+                android:textColorLink="@color/theme_accent" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

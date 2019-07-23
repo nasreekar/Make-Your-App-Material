@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
 public class ArticleListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
 
+    static final String STARTING_ARTICLE_POSITION = "starting_article_position";
     private static final String TAG = ArticleListActivity.class.toString();
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -40,9 +41,6 @@ public class ArticleListActivity extends AppCompatActivity implements
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-
-    static final String STARTING_ARTICLE_POSITION = "starting_article_position";
-
     private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
