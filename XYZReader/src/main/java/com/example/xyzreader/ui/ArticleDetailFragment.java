@@ -13,11 +13,14 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +48,7 @@ public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String ARG_ITEM_ID = "item_id";
+    private static final String TAG = "ArticleDetailFragment";
 
     @BindView(R.id.scrollView)
     NestedScrollView mScrollView;
@@ -74,6 +78,8 @@ public class ArticleDetailFragment extends Fragment implements
     private View mRootView;
     private int mMutedColor = 0xFF333333;
     private int mCurrentPosition;
+
+    private Cursor mCursor;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -119,7 +125,96 @@ public class ArticleDetailFragment extends Fragment implements
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         ButterKnife.bind(this, mRootView);
 
+        ((AppCompatActivity) getActivity()).setSupportActionBar(detailToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        bindViews();
+
         return mRootView;
+    }
+
+    private void bindViews() {
+        if (mRootView == null) {
+            return;
+        }
+
+        bylineView.setMovementMethod(new LinkMovementMethod());
+
+        if (mCursor != null) {
+            mRootView.setAlpha(0);
+            mRootView.setVisibility(View.VISIBLE);
+            mRootView.animate().alpha(1);
+
+            final String title = mCursor.getString(ArticleLoader.Query.TITLE);
+            String author = Html.fromHtml(
+                    DateUtils.getRelativeTimeSpanString(
+                            mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
+                            System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                            DateUtils.FORMAT_ABBREV_ALL).toString()
+                            + " by "
+                            + mCursor.getString(ArticleLoader.Query.AUTHOR)).toString();
+            final String body = Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)).toString();
+            String photo = mCursor.getString(ArticleLoader.Query.PHOTO_URL);
+
+
+            if (detailToolbar != null) {
+                if (mCard == null) {
+                    detailToolbar.setTitle(title);
+                }
+                detailToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+                detailToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getActivity().finish();
+                    }
+                });
+            }
+
+            titleView.setText(title);
+            bylineView.setText(author);
+            bodyView.setText(body);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mPhotoView.setTransitionName(getString(R.string.transition_photo) + mCurrentPosition);
+            }
+
+            ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
+                    .get(photo, new ImageLoader.ImageListener() {
+                        @Override
+                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+
+                            Bitmap bitmap = imageContainer.getBitmap();
+                            if (bitmap != null) {
+                                Palette p = Palette.from(bitmap).generate();
+                                mMutedColor = p.getDarkMutedColor(0xFF424242);
+                                mPhotoView.setImageBitmap(imageContainer.getBitmap());
+                                mRootView.findViewById(R.id.meta_bar)
+                                        .setBackgroundColor(mMutedColor);
+                            }
+                        }
+
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    });
+
+            mShareFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
+                            .setType("text/plain")
+                            .setText(body)
+                            .getIntent(), getString(R.string.action_share)));
+                }
+            });
+        } else {
+            mRootView.setVisibility(View.GONE);
+            titleView.setText("N/A");
+            bylineView.setText("N/A");
+            bodyView.setText("N/A");
+        }
     }
 
     @Override
@@ -129,79 +224,27 @@ public class ArticleDetailFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        if (cursor == null || cursor.isClosed() || !cursor.moveToFirst()) {
+        if (!isAdded()) {
+            if (cursor != null) {
+                cursor.close();
+            }
             return;
         }
 
-        // bindViews();
-
-        final String title = cursor.getString(ArticleLoader.Query.TITLE);
-        String author = Html.fromHtml(
-                DateUtils.getRelativeTimeSpanString(
-                        cursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
-                        System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                        DateUtils.FORMAT_ABBREV_ALL).toString()
-                        + " by "
-                        + cursor.getString(ArticleLoader.Query.AUTHOR)).toString();
-        final String body = Html.fromHtml(cursor.getString(ArticleLoader.Query.BODY)).toString();
-        String photo = cursor.getString(ArticleLoader.Query.PHOTO_URL);
-
-
-        if (detailToolbar != null) {
-            if (mCard == null) {
-                detailToolbar.setTitle(title);
-            }
-            detailToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-            detailToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().finish();
-                }
-            });
+        mCursor = cursor;
+        if (mCursor != null && !mCursor.moveToFirst()) {
+            Log.e(TAG, "Error reading item detail cursor");
+            mCursor.close();
+            mCursor = null;
         }
 
-        titleView.setText(title);
-        bylineView.setText(author);
-        bodyView.setText(body);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mPhotoView.setTransitionName(getString(R.string.transition_photo) + mCurrentPosition);
-        }
-
-        ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
-                .get(photo, new ImageLoader.ImageListener() {
-                    @Override
-                    public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-
-                        Bitmap bitmap = imageContainer.getBitmap();
-                        if (bitmap != null) {
-                            Palette p = Palette.from(bitmap).generate();
-                            mMutedColor = p.getDarkMutedColor(0xFF424242);
-                            mPhotoView.setImageBitmap(imageContainer.getBitmap());
-                            mRootView.findViewById(R.id.meta_bar)
-                                    .setBackgroundColor(mMutedColor);
-                        }
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                });
-
-        mShareFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                        .setType("text/plain")
-                        .setText(body)
-                        .getIntent(), getString(R.string.action_share)));
-            }
-        });
+        bindViews();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mCursor = null;
+        bindViews();
     }
 
     @Override
