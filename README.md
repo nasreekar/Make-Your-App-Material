@@ -31,3 +31,7 @@ XYZ Reader: A mock RSS feed reader featuring banner photos and headlines. Link f
 
 | ![ScreenShot1](https://i.postimg.cc/bJ75dGn6/Screenshot-2019-07-23-at-2-34-44-PM.png) | ![ScreenShot2](https://i.postimg.cc/y6R5tPq2/Screenshot-2019-07-23-at-2-34-57-PM.png)| ![ScreenShot3](https://i.postimg.cc/Wz0HZ26s/Screenshot-2019-07-23-at-2-35-28-PM.png)|
 |:---:|:---:|:---:|
+
+## Demo
+
+![](https://media.giphy.com/media/jQJZmmHIFQYyhI7CTs/giphy.gif)
